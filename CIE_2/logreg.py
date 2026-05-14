@@ -1,5 +1,7 @@
 import pandas as pd
 import math
+import matplotlib.pyplot as plt
+import numpy as np
 
 # Load dataset
 df = pd.read_csv('logisticreg.csv')
@@ -45,13 +47,43 @@ print("Bias =", b)
 
 print("\nPredictions:\n")
 
+predictions = []
+
 for i in range(len(X)):
 
     z = (w * X[i]) + b
 
     y_pred = sigmoid(z)
 
+    predictions.append(y_pred)
+
     if y_pred >= 0.5:
         print(X[i], "-> 1")
     else:
         print(X[i], "-> 0")
+
+# ---------------- GRAPH ----------------
+
+# Scatter plot of actual data
+plt.scatter(X, Y, label="Actual Data")
+
+# Sigmoid curve
+x_line = np.linspace(min(X), max(X), 100)
+
+y_line = []
+
+for x in x_line:
+    z = (w * x) + b
+    y_line.append(sigmoid(z))
+
+plt.plot(x_line, y_line, label="Sigmoid Curve")
+
+# Labels and title
+plt.xlabel("X")
+plt.ylabel("Probability")
+plt.title("Logistic Regression")
+
+plt.legend()
+plt.grid(True)
+
+plt.show()
